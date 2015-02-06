@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @return array
  */
-function render_edd_get_categories() {
+function render_woocommerce_get_categories() {
 
 	$terms = get_terms( 'download_category', 'hide_empty=false' );
 
@@ -31,7 +31,7 @@ function render_edd_get_categories() {
  *
  * @return array
  */
-function render_edd_get_tags() {
+function render_woocommerce_get_tags() {
 
 	$terms = get_terms( 'download_tag', 'hide_empty=false' );
 
@@ -50,7 +50,7 @@ function render_edd_get_tags() {
  *
  * @return array
  */
-function render_edd_get_downloads() {
+function render_woocommerce_get_downloads() {
 
 	global $post;
 
@@ -87,7 +87,7 @@ function render_edd_get_downloads() {
  * @param array  $_properties Extra attribute properties to use (or override).
  * @return array Attribute.
  */
-function render_edd_sc_attr_template( $template, $extra = array(), $_properties = array() ) {
+function render_woocommerce_sc_attr_template( $template, $extra = array(), $_properties = array() ) {
 
 	global $post;
 
@@ -103,14 +103,14 @@ function render_edd_sc_attr_template( $template, $extra = array(), $_properties 
 		case 'downloads':
 
 			$properties = array(
-				'placeholder' => __( 'Select a download', 'Render_EDD' ),
+				'placeholder' => __( 'Select a download', 'Render_woocommerce' ),
 				'callback'    => array(
-					'function' => 'render_edd_get_downloads',
+					'function' => 'render_woocommerce_get_downloads',
 				),
 			);
 
 			$output = array(
-				'label'      => __( 'Download', 'Render_EDD' ),
+				'label'      => __( 'Download', 'Render_woocommerce' ),
 				'type'       => 'selectbox',
 				'default'    => $post_ID,
 				'properties' => array_merge( $properties, $_properties ),
