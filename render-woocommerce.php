@@ -26,21 +26,21 @@ require_once __DIR__ . '/core/licensing/licensing.php';
  *
  * @since 1.0.0
  */
-define( 'RENDER_Woocommerce_VERSION', '0.1.0' );
+define( 'RENDER_WOOCOMMERCE_VERSION', '0.1.0' );
 
 /**
  * The absolute server path to Render's root directory.
  *
  * @since 1.0.0
  */
-define( 'RENDER_Woocommerce_PATH', plugin_dir_path( __FILE__ ) );
+define( 'RENDER_WOOCOMMERCE_PATH', plugin_dir_path( __FILE__ ) );
 
 /**
  * The URI to Render's root directory.
  *
  * @since 1.0.0
  */
-define( 'RENDER_Woocommerce_URL', plugins_url( '', __FILE__ ) );
+define( 'RENDER_WOOCOMMERCE_URL', plugins_url( '', __FILE__ ) );
 
 /**
  * Class Render_Woocommerce
@@ -70,7 +70,7 @@ class Render_Woocommerce {
 	public function init() {
 
 		// Bail if Render isn't loaded
-		if ( ! class_exists( 'Render' ) || ! class_exists( 'Easy_Digital_Downloads' ) ) {
+		if ( ! class_exists( 'Render' ) || ! class_exists( 'Woocommerce' ) ) {
 			add_action( 'admin_notices', array( __CLASS__, 'notice' ) );
 
 			return;
@@ -83,7 +83,7 @@ class Render_Woocommerce {
 		$this->add_shortcodes();
 
 		// Translation ready
-		load_plugin_textdomain( 'Render_Woocommerce', false, RENDER_Woocommerce_PATH . '/languages' );
+		load_plugin_textdomain( 'Render_Woocommerce', false, RENDER_WOOCOMMERCE_PATH . '/languages' );
 
 		// Add Woocommerce styles to tinymce
 		add_filter( 'render_editor_styles', array( __CLASS__, 'add_woocommerce_style') );
@@ -120,7 +120,7 @@ class Render_Woocommerce {
 
 		global $wp_styles;
 
-		woocommerce_register_styles();
+		//woocommerce_register_styles();
 
 		if ( isset( $wp_styles->registered['woocommerce-styles'] ) ) {
 			$styles[] = $wp_styles->registered['woocommerce-styles']->src;
@@ -131,6 +131,7 @@ class Render_Woocommerce {
 		return $styles;
 	}
 
+	// TODO add Woocommerce styles to TinyMCE
 	/**
 	 * Adds the Render Woocommerce stylesheet to the TinyMCE through Render.
 	 *
@@ -141,7 +142,7 @@ class Render_Woocommerce {
 	 */
 	public static function add_render_woocommerce_style( $styles ) {
 
-		$styles[] = RENDER_Woocommerce_URL . "/assets/css/render-woocommerce.css";
+		//$styles[] = RENDER_WOOCOMMERCE_URL . "/assets/css/render-woocommerce.css";
 		return $styles;
 	}
 
@@ -156,6 +157,307 @@ class Render_Woocommerce {
 
 		foreach (
 			array(
+				// 1. Add to cart
+				array(
+					'code'        => 'add_to_cart',
+					'function'    => 'woocommerce_download_shortcode',
+					'title'       => __( 'Add to Cart', 'Render_Woocommerce' ),
+					'description' => __( 'Displays a button which adds a specific product to the cart.', 'Render_Woocommerce' ),
+					'tags'        => 'ecommerce purchase product buy button pay link checkout',
+					'atts'        => array(
+						'id'       => array(
+							// TODO make this a dynamic dropdown
+							'label'      => __( 'Product', 'Render_Woocommerce' ),
+							'required' => true,
+						),
+						'sku'    => array(
+							'label'      => __( 'SKU', 'Render_Woocommerce' ),
+						),
+						array(
+							'type'  => 'section_break',
+							'label' => __( 'Style', 'Render_Woocommerce' ),
+						),
+						'style'    => array(
+							'label'      => __( 'Custom CSS', 'Render_Woocommerce' ),
+						),
+					),
+					'render'      => true,
+				),
+				// 2. Add to cart URL
+				array(
+					'code'        => 'add_to_cart_url',
+					'function'    => 'woocommerce_download_shortcode',
+					'title'       => __( 'Add to Cart URL', 'Render_Woocommerce' ),
+					'description' => __( 'Displays the URL on the add to cart button of a specific product.', 'Render_Woocommerce' ),
+					'tags'        => 'ecommerce purchase product buy button pay link checkout URI',
+					'atts'        => array(
+						'id'       => array(
+							// TODO make this a dynamic dropdown
+							'label'      => __( 'Product', 'Render_Woocommerce' ),
+							'required' => true,
+						),
+						'sku'    => array(
+							'label'      => __( 'SKU', 'Render_Woocommerce' ),
+						),
+					),
+					'render'      => true,
+				),
+				// 3. Best selling products
+				array(
+					'code'        => 'best_selling_products',
+					'function'    => 'woocommerce_download_shortcode',
+					'title'       => __( 'Best Selling Products', 'Render_Woocommerce' ),
+					'description' => __( 'Displays a list of all the best selling products on this site.', 'Render_Woocommerce' ),
+					'tags'        => 'ecommerce purchase checkout sale grid',
+					'atts'        => array(
+						'per_page'           => array(
+							'label'      => __( 'Per Page', 'Render_Woocommerce' ),
+							'type'       => 'counter',
+							'default'    => 10,
+							'properties' => array(
+								'min' => 1,
+								'max' => 50,
+							),
+						),
+						'columns'           => array(
+							'label'      => __( 'Columns', 'Render_Woocommerce' ),
+							'type'       => 'counter',
+							'default'    => 2,
+							'properties' => array(
+								'min' => 1,
+								'max' => 6,
+							),
+						),
+					),
+					'render'      => true,
+				),
+				// 4. Featured products
+				array(
+					'code'        => 'featured_products',
+					'function'    => 'woocommerce_download_shortcode',
+					'title'       => __( 'Featured Products', 'Render_Woocommerce' ),
+					'description' => __( 'Displays a list of all the featured products on this site.', 'Render_Woocommerce' ),
+					'tags'        => 'ecommerce purchase checkout sale grid',
+					'atts'        => array(
+						'per_page'           => array(
+							'label'      => __( 'Per Page', 'Render_Woocommerce' ),
+							'type'       => 'counter',
+							'default'    => 12,
+							'properties' => array(
+								'min' => 1,
+								'max' => 50,
+							),
+						),
+						'columns'           => array(
+							'label'      => __( 'Columns', 'Render_Woocommerce' ),
+							'type'       => 'counter',
+							'default'    => 4,
+							'properties' => array(
+								'min' => 1,
+								'max' => 6,
+							),
+						),
+						'orderby'          => array(
+							'label'      => __( 'Order By', 'Render_Woocommerce' ),
+							'type'       => 'selectbox',
+							'default'    => 'date',
+							'properties' => array(
+								'options' => array(
+									// TODO find all accepted inputs
+//									'price'     => __( 'Price', 'Render_Woocommerce' ),
+//									'id'        => __( 'ID', 'Render_Woocommerce' ),
+//									'random'    => __( 'Random', 'Render_Woocommerce' ),
+									'date' => __( 'Published date', 'Render_Woocommerce' ),
+									'title'     => __( 'Title', 'Render_Woocommerce' ),
+								),
+							),
+						),
+						'order'            => array(
+							'label'      => __( 'Order', 'Render_Woocommerce' ),
+							'type'       => 'toggle',
+							'properties' => array(
+								'values' => array(
+									'desc' => __( 'Descending', 'Render_Woocommerce' ),
+									'asc'  => __( 'Ascending', 'Render_Woocommerce' ),
+								),
+							),
+						),
+					),
+					'render'      => true,
+				),
+				// 5. Product
+				array(
+					'code'        => 'product',
+					'function'    => 'woocommerce_download_shortcode',
+					'title'       => __( 'Product', 'Render_Woocommerce' ),
+					'description' => __( 'Displays a specific product.', 'Render_Woocommerce' ),
+					'tags'        => 'ecommerce purchase buy pay sale',
+					'atts'        => array(
+						'id'       => array(
+							// TODO make this a dynamic dropdown
+							'label'      => __( 'Product', 'Render_Woocommerce' ),
+							'required' => true,
+						),
+						'sku'    => array(
+							'label'      => __( 'SKU', 'Render_Woocommerce' ),
+						),
+					),
+					'render'      => true,
+				),
+				// 6. Product attribute
+				array(
+					'code'        => 'product_attribute',
+					'function'    => 'woocommerce_download_shortcode',
+					'title'       => __( 'Product Attribute', 'Render_Woocommerce' ),
+					'description' => __( 'Displays a list of products based on an attribute value.', 'Render_Woocommerce' ),
+					'tags'        => 'ecommerce purchase sale grid',
+					'atts'        => array(
+						'per_page'           => array(
+							'label'      => __( 'Per Page', 'Render_Woocommerce' ),
+							'type'       => 'counter',
+							'default'    => 12,
+							'properties' => array(
+								'min' => 1,
+								'max' => 50,
+							),
+						),
+						'columns'           => array(
+							'label'      => __( 'Columns', 'Render_Woocommerce' ),
+							'type'       => 'counter',
+							'default'    => 4,
+							'properties' => array(
+								'min' => 1,
+								'max' => 6,
+							),
+						),
+						'orderby'          => array(
+							'label'      => __( 'Order By', 'Render_Woocommerce' ),
+							'type'       => 'selectbox',
+							'default'    => 'date',
+							'properties' => array(
+								'options' => array(
+									// TODO find all accepted inputs
+//									'price'     => __( 'Price', 'Render_Woocommerce' ),
+//									'id'        => __( 'ID', 'Render_Woocommerce' ),
+//									'random'    => __( 'Random', 'Render_Woocommerce' ),
+									'date' => __( 'Published date', 'Render_Woocommerce' ),
+									'title'     => __( 'Title', 'Render_Woocommerce' ),
+								),
+							),
+						),
+						'order'            => array(
+							'label'      => __( 'Order', 'Render_Woocommerce' ),
+							'type'       => 'toggle',
+							'properties' => array(
+								'values' => array(
+									'desc' => __( 'Descending', 'Render_Woocommerce' ),
+									'asc'  => __( 'Ascending', 'Render_Woocommerce' ),
+								),
+							),
+						),
+						'attribute'       => array(
+							// TODO make this a dynamic dropdown
+							'label'      => __( 'Attribute', 'Render_Woocommerce' ),
+						),
+						'filter'    => array(
+							'label'      => __( 'Filter', 'Render_Woocommerce' ),
+						),
+					),
+					'render'      => true,
+				),
+				// 7. Product categories
+				array(
+					'code'        => 'product_categories',
+					'function'    => 'woocommerce_download_shortcode',
+					'title'       => __( 'Product Categories', 'Render_Woocommerce' ),
+					'description' => __( 'Displays a list of product categories.', 'Render_Woocommerce' ),
+					'tags'        => 'ecommerce purchase sale grid taxonomy list',
+					'atts'        => array(
+						'columns'           => array(
+							'label'      => __( 'Columns', 'Render_Woocommerce' ),
+							'type'       => 'counter',
+							'default'    => 4,
+							'properties' => array(
+								'min' => 1,
+								'max' => 6,
+							),
+						),
+						'orderby'          => array(
+							'label'      => __( 'Order By', 'Render_Woocommerce' ),
+							'type'       => 'selectbox',
+							'default'    => 'date',
+							'properties' => array(
+								'options' => array(
+									// TODO find all accepted inputs
+//									'price'     => __( 'Price', 'Render_Woocommerce' ),
+//									'id'        => __( 'ID', 'Render_Woocommerce' ),
+//									'random'    => __( 'Random', 'Render_Woocommerce' ),
+									'date' => __( 'Published date', 'Render_Woocommerce' ),
+									'title'     => __( 'Title', 'Render_Woocommerce' ),
+									'name'     => __( 'Name', 'Render_Woocommerce' ),
+								),
+							),
+						),
+						'order'            => array(
+							'label'      => __( 'Order', 'Render_Woocommerce' ),
+							'type'       => 'toggle',
+							'properties' => array(
+								'values' => array(
+									'DESC' => __( 'Descending', 'Render_Woocommerce' ),
+									'ASC'  => __( 'Ascending', 'Render_Woocommerce' ),
+								),
+							),
+						),
+						'number'           => array(
+							'label'      => __( 'Number of products', 'Render_Woocommerce' ),
+							'type'       => 'counter',
+							'default'    => null,
+							'properties' => array(
+								'min' => 1,
+								'max' => 25,
+							),
+						),
+						'hide_empty'            => array(
+							'label'      => __( 'Hide empty', 'Render_Woocommerce' ),
+							'type'       => 'toggle',
+							'properties' => array(
+								'values' => array(
+									'1' => __( 'Yes', 'Render_Woocommerce' ),
+									'0'  => __( 'No', 'Render_Woocommerce' ),
+								),
+							),
+						),
+						'parent'       => array(
+							'label'      => __( 'Only top level categories', 'Render_Woocommerce' ),
+							'type'       => 'toggle',
+							'properties' => array(
+								'values' => array(
+									'' => __( 'No', 'Render_Woocommerce' ),
+									'1'  => __( 'Yes', 'Render_Woocommerce' ),
+								),
+							),
+						),
+						'ids'       => array(
+							// TODO make this a dynamic multiselect dropdown
+							'label'      => __( 'Categories', 'Render_Woocommerce' ),
+						),
+					),
+					'render'      => true,
+				),
+				// 8. Product category
+				// 9. Product page
+				// 10. Products
+				// 11. Recent products
+				// 12. Related products
+				// 13. Sale products
+				// 14. Shop messages
+				// 15. Top rated products
+				// 16. Woocommerce cart
+				// 17. Woocommerce checkout
+				// 18. Woocommerce messages
+				// 19. Woocommerce my account
+				// 20. Woocommerce order tracking
+
 				// Download Cart
 				array(
 					'code'        => 'download_cart',
