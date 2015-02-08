@@ -445,6 +445,65 @@ class Render_Woocommerce {
 					'render'      => true,
 				),
 				// 8. Product category
+				array(
+					'code'        => 'product_category',
+					'function'    => 'woocommerce_download_shortcode',
+					'title'       => __( 'Product Category', 'Render_Woocommerce' ),
+					'description' => __( 'Displays a list of products in a category.', 'Render_Woocommerce' ),
+					'tags'        => 'ecommerce purchase sale grid taxonomy list',
+					'atts'        => array(
+						'columns'           => array(
+							'label'      => __( 'Columns', 'Render_Woocommerce' ),
+							'type'       => 'counter',
+							'default'    => 4,
+							'properties' => array(
+								'min' => 1,
+								'max' => 6,
+							),
+						),
+						'orderby'          => array(
+							'label'      => __( 'Order By', 'Render_Woocommerce' ),
+							'type'       => 'selectbox',
+							'default'    => 'date',
+							'properties' => array(
+								'options' => array(
+									// TODO find all accepted inputs
+//									'price'     => __( 'Price', 'Render_Woocommerce' ),
+//									'id'        => __( 'ID', 'Render_Woocommerce' ),
+//									'random'    => __( 'Random', 'Render_Woocommerce' ),
+									'date' => __( 'Published date', 'Render_Woocommerce' ),
+									'title'     => __( 'Title', 'Render_Woocommerce' ),
+									'name'     => __( 'Name', 'Render_Woocommerce' ),
+								),
+							),
+						),
+						'order'            => array(
+							'label'      => __( 'Order', 'Render_Woocommerce' ),
+							'type'       => 'toggle',
+							'properties' => array(
+								'values' => array(
+									'DESC' => __( 'Descending', 'Render_Woocommerce' ),
+									'ASC'  => __( 'Ascending', 'Render_Woocommerce' ),
+								),
+							),
+						),
+						'per_page'           => array(
+							'label'      => __( 'Number of products', 'Render_Woocommerce' ),
+							'type'       => 'counter',
+							'default'    => null,
+							'properties' => array(
+								'min' => 1,
+								'max' => 30,
+							),
+						),
+						'category'       => array(
+							// TODO make this a dynamic dropdown
+							'label'      => __( 'Category', 'Render_Woocommerce' ),
+							'required' => true,
+						),
+					),
+					'render'      => true,
+				),
 				// 9. Product page
 				// 10. Products
 				// 11. Recent products
