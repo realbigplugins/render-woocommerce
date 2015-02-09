@@ -89,6 +89,11 @@ class Render_Woocommerce {
 		add_filter( 'render_editor_styles', array( __CLASS__, 'add_woocommerce_style') );
 
 		add_filter( 'render_editor_styles', array( __CLASS__, 'add_render_woocommerce_style' ) );
+
+		add_action( 'render_tinymce_ajax', array( $this, 'add_product_post_class' ) );
+
+		// Add licensing
+		render_setup_license( 'render_woocommerce', 'Woocommerce', RENDER_WOOCOMMERCE_VERSION, plugin_dir_path( __FILE__ ) );
 	}
 
 	/**
@@ -105,7 +110,6 @@ class Render_Woocommerce {
 		require_once __DIR__ . '/core/admin/settings.php';
 	}
 
-	// TODO add Woocommerce styles to TinyMCE
 	/**
 	 * Adds the Woocommerce stylesheet to the TinyMCE.
 	 *
@@ -136,6 +140,20 @@ class Render_Woocommerce {
 		return $styles;
 	}
 
+	/**
+	 * Add 'product' class to lists of products in TinyMCE
+	 *
+	 * @since 0.1.0
+	 */
+	public function add_product_post_class() {
+		add_filter( 'post_class', function( $post_class ) {
+			global $post;
+			if ( $post->post_type == 'product' ) {
+				$post_class[] = 'product';
+			}
+			return $post_class;
+		});
+	}
 	/**
 	 * Add data and inputs for all Woocommerce shortcodes and pass them through Render's function.
 	 *
