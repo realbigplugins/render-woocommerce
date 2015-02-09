@@ -165,11 +165,9 @@ class Render_Woocommerce {
 					'description' => __( 'Displays a button which adds a specific product to the cart.', 'Render_Woocommerce' ),
 					'tags'        => 'ecommerce purchase product buy button pay link checkout',
 					'atts'        => array(
-						'id'       => array(
-							// TODO make this a dynamic dropdown
-							'label'      => __( 'Product', 'Render_Woocommerce' ),
+						'id'       => render_woocommerce_sc_attr_template( 'product', array(
 							'required' => true,
-						),
+						) ),
 						'sku'    => array(
 							'label'      => __( 'SKU', 'Render_Woocommerce' ),
 						),
@@ -179,6 +177,7 @@ class Render_Woocommerce {
 						),
 						'style'    => array(
 							'label'      => __( 'Custom CSS', 'Render_Woocommerce' ),
+							'advanced' => true,
 						),
 					),
 					'render'      => true,
@@ -191,11 +190,9 @@ class Render_Woocommerce {
 					'description' => __( 'Displays the URL on the add to cart button of a specific product.', 'Render_Woocommerce' ),
 					'tags'        => 'ecommerce purchase product buy button pay link checkout URI',
 					'atts'        => array(
-						'id'       => array(
-							// TODO make this a dynamic dropdown
-							'label'      => __( 'Product', 'Render_Woocommerce' ),
+						'id'       => render_woocommerce_sc_attr_template( 'product', array(
 							'required' => true,
-						),
+						) ),
 						'sku'    => array(
 							'label'      => __( 'SKU', 'Render_Woocommerce' ),
 						),
@@ -263,12 +260,12 @@ class Render_Woocommerce {
 							'default'    => 'date',
 							'properties' => array(
 								'options' => array(
-									// TODO find all accepted inputs
-//									'price'     => __( 'Price', 'Render_Woocommerce' ),
-//									'id'        => __( 'ID', 'Render_Woocommerce' ),
-//									'random'    => __( 'Random', 'Render_Woocommerce' ),
+									'price'     => __( 'Price', 'Render_Woocommerce' ),
+									'id'        => __( 'ID', 'Render_Woocommerce' ),
+									'rand'    => __( 'Random', 'Render_Woocommerce' ),
 									'date' => __( 'Published date', 'Render_Woocommerce' ),
 									'title'     => __( 'Title', 'Render_Woocommerce' ),
+									'menu_order'     => __( 'Menu order', 'Render_Woocommerce' ),
 								),
 							),
 						),
@@ -293,11 +290,9 @@ class Render_Woocommerce {
 					'description' => __( 'Displays a specific product.', 'Render_Woocommerce' ),
 					'tags'        => 'ecommerce purchase buy pay sale',
 					'atts'        => array(
-						'id'       => array(
-							// TODO make this a dynamic dropdown
-							'label'      => __( 'Product', 'Render_Woocommerce' ),
+						'id'       => render_woocommerce_sc_attr_template( 'product', array(
 							'required' => true,
-						),
+						) ),
 						'sku'    => array(
 							'label'      => __( 'SKU', 'Render_Woocommerce' ),
 						),
@@ -336,12 +331,12 @@ class Render_Woocommerce {
 							'default'    => 'date',
 							'properties' => array(
 								'options' => array(
-									// TODO find all accepted inputs
-//									'price'     => __( 'Price', 'Render_Woocommerce' ),
-//									'id'        => __( 'ID', 'Render_Woocommerce' ),
-//									'random'    => __( 'Random', 'Render_Woocommerce' ),
+									'price'     => __( 'Price', 'Render_Woocommerce' ),
+									'id'        => __( 'ID', 'Render_Woocommerce' ),
+									'rand'    => __( 'Random', 'Render_Woocommerce' ),
 									'date' => __( 'Published date', 'Render_Woocommerce' ),
 									'title'     => __( 'Title', 'Render_Woocommerce' ),
+									'menu_order'     => __( 'Menu order', 'Render_Woocommerce' ),
 								),
 							),
 						),
@@ -389,9 +384,9 @@ class Render_Woocommerce {
 							'properties' => array(
 								'options' => array(
 									// TODO find all accepted inputs
-//									'price'     => __( 'Price', 'Render_Woocommerce' ),
-//									'id'        => __( 'ID', 'Render_Woocommerce' ),
-//									'random'    => __( 'Random', 'Render_Woocommerce' ),
+									'price'     => __( 'Price', 'Render_Woocommerce' ),
+									'id'        => __( 'ID', 'Render_Woocommerce' ),
+									'rand'    => __( 'Random', 'Render_Woocommerce' ),
 									'date' => __( 'Published date', 'Render_Woocommerce' ),
 									'title'     => __( 'Title', 'Render_Woocommerce' ),
 									'name'     => __( 'Name', 'Render_Woocommerce' ),
@@ -467,13 +462,11 @@ class Render_Woocommerce {
 							'default'    => 'date',
 							'properties' => array(
 								'options' => array(
-									// TODO find all accepted inputs
-//									'price'     => __( 'Price', 'Render_Woocommerce' ),
-//									'id'        => __( 'ID', 'Render_Woocommerce' ),
-//									'random'    => __( 'Random', 'Render_Woocommerce' ),
+									'id'        => __( 'ID', 'Render_Woocommerce' ),
+									'rand'    => __( 'Random', 'Render_Woocommerce' ),
 									'date' => __( 'Published date', 'Render_Woocommerce' ),
 									'title'     => __( 'Title', 'Render_Woocommerce' ),
-									'name'     => __( 'Name', 'Render_Woocommerce' ),
+									'menu_order'     => __( 'Menu order', 'Render_Woocommerce' ),
 								),
 							),
 						),
@@ -505,137 +498,340 @@ class Render_Woocommerce {
 					'render'      => true,
 				),
 				// 9. Product page
+				array(
+					'code'        => 'product_page',
+					'function'    => 'woocommerce_download_shortcode',
+					'title'       => __( 'Product page', 'Render_Woocommerce' ),
+					'description' => __( 'Show a full single product page by ID or SKU.', 'Render_Woocommerce' ),
+					'tags'        => 'ecommerce purchase buy sale individual',
+					'atts'        => array(
+						'id'       => render_woocommerce_sc_attr_template( 'product', array(
+							'required' => true,
+						) ),
+						'sku'    => array(
+							'label'      => __( 'SKU', 'Render_Woocommerce' ),
+						),
+					),
+					'render'      => true,
+				),
 				// 10. Products
+				array(
+					'code'        => 'products',
+					'function'    => 'woocommerce_download_shortcode',
+					'title'       => __( 'Products', 'Render_Woocommerce' ),
+					'description' => __( 'Show multiple products by ID or SKU.', 'Render_Woocommerce' ),
+					'tags'        => 'ecommerce purchase buy sale',
+					'atts'        => array(
+						'ids'       => array(
+							// TODO make this a dynamic multiselect dropdown
+							'label'      => __( 'Products', 'Render_Woocommerce' ),
+							'required' => true,
+						),
+						'skus'    => array(
+							'label'      => __( 'SKU', 'Render_Woocommerce' ),
+						),
+						'columns'           => array(
+							'label'      => __( 'Columns', 'Render_Woocommerce' ),
+							'type'       => 'counter',
+							'default'    => 4,
+							'properties' => array(
+								'min' => 1,
+								'max' => 6,
+							),
+						),
+						'orderby'          => array(
+							'label'      => __( 'Order By', 'Render_Woocommerce' ),
+							'type'       => 'selectbox',
+							'default'    => 'date',
+							'properties' => array(
+								'options' => array(
+									'id'        => __( 'ID', 'Render_Woocommerce' ),
+									'rand'    => __( 'Random', 'Render_Woocommerce' ),
+									'date' => __( 'Published date', 'Render_Woocommerce' ),
+									'title'     => __( 'Title', 'Render_Woocommerce' ),
+									'menu_order'     => __( 'Menu order', 'Render_Woocommerce' ),
+								),
+							),
+						),
+						'order'            => array(
+							'label'      => __( 'Order', 'Render_Woocommerce' ),
+							'type'       => 'toggle',
+							'properties' => array(
+								'values' => array(
+									'desc' => __( 'Descending', 'Render_Woocommerce' ),
+									'asc'  => __( 'Ascending', 'Render_Woocommerce' ),
+								),
+							),
+						),
+					),
+					'render'      => true,
+				),
 				// 11. Recent products
+				array(
+					'code'        => 'recent_products',
+					'function'    => 'woocommerce_download_shortcode',
+					'title'       => __( 'Recent products', 'Render_Woocommerce' ),
+					'description' => __( 'Displays a list of recent products.', 'Render_Woocommerce' ),
+					'tags'        => 'ecommerce grid list new',
+					'atts'        => array(
+						'columns'           => array(
+							'label'      => __( 'Columns', 'Render_Woocommerce' ),
+							'type'       => 'counter',
+							'default'    => 4,
+							'properties' => array(
+								'min' => 1,
+								'max' => 6,
+							),
+						),
+						'orderby'          => array(
+							'label'      => __( 'Order By', 'Render_Woocommerce' ),
+							'type'       => 'selectbox',
+							'default'    => 'date',
+							'properties' => array(
+								'options' => array(
+									'id'        => __( 'ID', 'Render_Woocommerce' ),
+									'rand'    => __( 'Random', 'Render_Woocommerce' ),
+									'date' => __( 'Published date', 'Render_Woocommerce' ),
+									'title'     => __( 'Title', 'Render_Woocommerce' ),
+									'menu_order'     => __( 'Menu order', 'Render_Woocommerce' ),
+								),
+							),
+						),
+						'order'            => array(
+							'label'      => __( 'Order', 'Render_Woocommerce' ),
+							'type'       => 'toggle',
+							'properties' => array(
+								'values' => array(
+									'desc' => __( 'Descending', 'Render_Woocommerce' ),
+									'asc'  => __( 'Ascending', 'Render_Woocommerce' ),
+								),
+							),
+						),
+						'per_page'           => array(
+							'label'      => __( 'Number of products', 'Render_Woocommerce' ),
+							'type'       => 'counter',
+							'default'    => null,
+							'properties' => array(
+								'min' => 1,
+								'max' => 30,
+							),
+						),
+					),
+					'render'      => true,
+				),
 				// 12. Related products
+				array(
+					'code'        => 'recent_products',
+					'function'    => 'woocommerce_download_shortcode',
+					'title'       => __( 'Recent products', 'Render_Woocommerce' ),
+					'description' => __( 'Displays a list of related products.', 'Render_Woocommerce' ),
+					'tags'        => 'ecommerce grid list',
+					'atts'        => array(
+						'columns'           => array(
+							'label'      => __( 'Columns', 'Render_Woocommerce' ),
+							'type'       => 'counter',
+							'default'    => 4,
+							'properties' => array(
+								'min' => 1,
+								'max' => 6,
+							),
+						),
+						'orderby'          => array(
+							'label'      => __( 'Order By', 'Render_Woocommerce' ),
+							'type'       => 'selectbox',
+							'default'    => 'date',
+							'properties' => array(
+								'options' => array(
+									'id'        => __( 'ID', 'Render_Woocommerce' ),
+									'rand'    => __( 'Random', 'Render_Woocommerce' ),
+									'date' => __( 'Published date', 'Render_Woocommerce' ),
+									'title'     => __( 'Title', 'Render_Woocommerce' ),
+									'menu_order'     => __( 'Menu order', 'Render_Woocommerce' ),
+								),
+							),
+						),
+						'per_page'           => array(
+							'label'      => __( 'Number of products', 'Render_Woocommerce' ),
+							'type'       => 'counter',
+							'default'    => null,
+							'properties' => array(
+								'min' => 1,
+								'max' => 30,
+							),
+						),
+					),
+					'render'      => true,
+				),
 				// 13. Sale products
+				array(
+					'code'        => 'sale_products',
+					'function'    => 'woocommerce_download_shortcode',
+					'title'       => __( 'Sale products', 'Render_Woocommerce' ),
+					'description' => __( 'Displays a list of products that are on sale.', 'Render_Woocommerce' ),
+					'tags'        => 'ecommerce grid list',
+					'atts'        => array(
+						'columns'           => array(
+							'label'      => __( 'Columns', 'Render_Woocommerce' ),
+							'type'       => 'counter',
+							'default'    => 4,
+							'properties' => array(
+								'min' => 1,
+								'max' => 6,
+							),
+						),
+						'orderby'          => array(
+							'label'      => __( 'Order By', 'Render_Woocommerce' ),
+							'type'       => 'selectbox',
+							'default'    => 'date',
+							'properties' => array(
+								'options' => array(
+									'id'        => __( 'ID', 'Render_Woocommerce' ),
+									'rand'    => __( 'Random', 'Render_Woocommerce' ),
+									'date' => __( 'Published date', 'Render_Woocommerce' ),
+									'title'     => __( 'Title', 'Render_Woocommerce' ),
+									'menu_order'     => __( 'Menu order', 'Render_Woocommerce' ),
+								),
+							),
+						),
+						'order'            => array(
+							'label'      => __( 'Order', 'Render_Woocommerce' ),
+							'type'       => 'toggle',
+							'properties' => array(
+								'values' => array(
+									'desc' => __( 'Descending', 'Render_Woocommerce' ),
+									'asc'  => __( 'Ascending', 'Render_Woocommerce' ),
+								),
+							),
+						),
+						'per_page'           => array(
+							'label'      => __( 'Number of products', 'Render_Woocommerce' ),
+							'type'       => 'counter',
+							'default'    => null,
+							'properties' => array(
+								'min' => 1,
+								'max' => 30,
+							),
+						),
+					),
+					'render'      => true,
+				),
 				// 14. Shop messages
+				array(
+					'code'        => 'shop_messages',
+					'function'    => 'woocommerce_download_shortcode',
+					'title'       => __( 'Shop messages', 'Render_Woocommerce' ),
+					'description' => __( 'Outputs storewide messages.', 'Render_Woocommerce' ),
+					'tags'        => 'ecommerce',
+					'render'      => true,
+				),
 				// 15. Top rated products
+				array(
+					'code'        => 'top_rated_products',
+					'function'    => 'woocommerce_download_shortcode',
+					'title'       => __( 'Top rated products', 'Render_Woocommerce' ),
+					'description' => __( 'Displays the top rated products for this store.', 'Render_Woocommerce' ),
+					'tags'        => 'ecommerce grid list',
+					'atts'        => array(
+						'columns'           => array(
+							'label'      => __( 'Columns', 'Render_Woocommerce' ),
+							'type'       => 'counter',
+							'default'    => 4,
+							'properties' => array(
+								'min' => 1,
+								'max' => 6,
+							),
+						),
+						'orderby'          => array(
+							'label'      => __( 'Order By', 'Render_Woocommerce' ),
+							'type'       => 'selectbox',
+							'default'    => 'date',
+							'properties' => array(
+								'options' => array(
+									'id'        => __( 'ID', 'Render_Woocommerce' ),
+									'rand'    => __( 'Random', 'Render_Woocommerce' ),
+									'date' => __( 'Published date', 'Render_Woocommerce' ),
+									'title'     => __( 'Title', 'Render_Woocommerce' ),
+									'menu_order'     => __( 'Menu order', 'Render_Woocommerce' ),
+								),
+							),
+						),
+						'order'            => array(
+							'label'      => __( 'Order', 'Render_Woocommerce' ),
+							'type'       => 'toggle',
+							'properties' => array(
+								'values' => array(
+									'desc' => __( 'Descending', 'Render_Woocommerce' ),
+									'asc'  => __( 'Ascending', 'Render_Woocommerce' ),
+								),
+							),
+						),
+						'per_page'           => array(
+							'label'      => __( 'Number of products', 'Render_Woocommerce' ),
+							'type'       => 'counter',
+							'default'    => null,
+							'properties' => array(
+								'min' => 1,
+								'max' => 30,
+							),
+						),
+					),
+					'render'      => true,
+				),
 				// 16. Woocommerce cart
+				array(
+					'code'        => 'woocommerce_cart',
+					'function'    => 'woocommerce_download_shortcode',
+					'title'       => __( 'Cart', 'Render_Woocommerce' ),
+					'description' => __( 'Displays the current user\'s cart.', 'Render_Woocommerce' ),
+					'tags'        => 'ecommerce',
+					'render'      => true,
+				),
 				// 17. Woocommerce checkout
+				array(
+					'code'        => 'woocommerce_checkout',
+					'function'    => 'woocommerce_download_shortcode',
+					'title'       => __( 'Checkout', 'Render_Woocommerce' ),
+					'description' => __( 'Displays the checkout process for the current user.', 'Render_Woocommerce' ),
+					'tags'        => 'ecommerce',
+					'render'      => true,
+				),
 				// 18. Woocommerce messages
+				array(
+					'code'        => 'woocommerce_messages',
+					'function'    => 'woocommerce_download_shortcode',
+					'title'       => __( 'Messages', 'Render_Woocommerce' ),
+					'description' => __( 'Outputs storewide messages.', 'Render_Woocommerce' ),
+					'tags'        => 'ecommerce',
+					'render'      => true,
+				),
 				// 19. Woocommerce my account
+				array(
+					'code'        => 'woocommerce_my_account',
+					'function'    => 'woocommerce_download_shortcode',
+					'title'       => __( 'My account', 'Render_Woocommerce' ),
+					'description' => __( 'Displays the current user\'s account information.', 'Render_Woocommerce' ),
+					'tags'        => 'ecommerce',
+					'atts'        => array(
+						'order_count'           => array(
+							'label'      => __( 'Order count', 'Render_Woocommerce' ),
+							'type'       => 'counter',
+							'default'    => 4,
+							'properties' => array(
+								'min' => -1,
+								'max' => 50,
+							),
+						),
+					),
+					'render'      => true,
+				),
 				// 20. Woocommerce order tracking
-
-				// Download Cart
 				array(
-					'code'        => 'download_cart',
-					'function'    => 'woocommerce_cart_shortcode',
-					'title'       => __( 'Download Cart', 'Render_Woocommerce' ),
-					'description' => __( 'Lists items in cart.', 'Render_Woocommerce' ),
-					'tags'        => 'cart woocommerce ecommerce downloads digital products',
-					'render'      => array(
-						'displayBlock' => true,
-					),
-				),
-				// Download Checkout
-				array(
-					'code'        => 'download_checkout',
-					'function'    => 'woocommerce_checkout_form_shortcode',
-					'title'       => __( 'Download Checkout', 'Render_Woocommerce' ),
-					'description' => __( 'Displays the checkout form.', 'Render_Woocommerce' ),
-					'tags'        => 'cart woocommerce ecommerce downloads digital products form',
-					'render'      => array(
-						'displayBlock' => true,
-					),
-				),
-				// Download History
-				array(
-					'code'        => 'download_history',
-					'function'    => 'woocommerce_download_history',
-					'title'       => __( 'Download History', 'Render_Woocommerce' ),
-					'description' => __( 'Displays all the products a user has purchased with links to the files.', 'Render_Woocommerce' ),
-					'tags'        => 'woocommerce ecommerce downloads digital products history files purchase',
-					'render'      => array(
-						'displayBlock' => true,
-					),
-				),
-				// Purchase History
-				array(
-					'code'        => 'purchase_history',
-					'function'    => 'woocommerce_purchase_history',
-					'title'       => __( 'Purchase History', 'Render_Woocommerce' ),
-					'description' => __( 'Displays the complete purchase history for a user.', 'Render_Woocommerce' ),
-					'tags'        => 'woocommerce ecommerce downloads digital products history purchase',
-					'render'      => array(
-						'displayBlock' => true,
-					),
-				),
-				// Download Discounts
-				array(
-					'code'        => 'download_discounts',
-					'function'    => 'woocommerce_discounts_shortcode',
-					'title'       => __( 'Download Discounts', 'Render_Woocommerce' ),
-					'description' => __( 'Lists all the currently available discount codes on your site.', 'Render_Woocommerce' ),
-					'tags'        => 'woocommerce ecommerce downloads digital products coupon discount code',
-					'render'      => array(
-						'displayBlock' => true,
-					),
-				),
-				// Profile Editor
-				array(
-					'code'        => 'woocommerce_profile_editor',
-					'function'    => 'woocommerce_profile_editor_shortcode',
-					'title'       => __( 'Woocommerce Profile Editor', 'Render_Woocommerce' ),
-					'description' => __( 'Presents users with a form for updating their profile.', 'Render_Woocommerce' ),
-					'tags'        => 'woocommerce ecommerce downloads digital user profile account',
-					'render'      => array(
-						'displayBlock' => true,
-					),
-				),
-				// Login
-				array(
-					'code'        => 'woocommerce_login',
-					'function'    => 'woocommerce_login_form_shortcode',
-					'title'       => __( 'Woocommerce Login', 'Render_Woocommerce' ),
-					'description' => __( 'Displays a simple login form for non-logged in users.', 'Render_Woocommerce' ),
-					'tags'        => 'woocommerce ecommerce downloads login users form',
-					'atts'        => array(
-						'redirect' => array(
-							'label'       => __( 'Redirect', 'Render_Woocommerce' ),
-							'description' => __( 'Redirect to this page after login.', 'Render_Woocommerce' ),
-							'type'        => 'selectbox',
-							'properties'  => array(
-								'allowCustomInput' => true,
-								'groups'           => array(),
-								'callback'         => array(
-									'groups'   => true,
-									'function' => 'render_sc_post_list',
-								),
-								'placeholder'      => __( 'Same page', 'Render_Woocommerce' ),
-							),
-						),
-					),
-					'render'      => array(
-						'displayBlock' => true,
-					),
-				),
-				// Register
-				array(
-					'code'        => 'woocommerce_register',
-					'function'    => 'woocommerce_register_form_shortcode',
-					'title'       => __( 'Woocommerce Register', 'Render_Woocommerce' ),
-					'description' => __( 'Displays a registration form for non-logged in users.', 'Render_Woocommerce' ),
-					'tags'        => 'woocommerce ecommerce downloads login users form register signup',
-					'atts'        => array(
-						'redirect' => array(
-							'label'       => __( 'Redirect', 'Render_Woocommerce' ),
-							'description' => __( 'Redirect to this page after login.', 'Render_Woocommerce' ),
-							'type'        => 'selectbox',
-							'properties'  => array(
-								'allowCustomInput' => true,
-								'groups'           => array(),
-								'callback'         => array(
-									'groups'   => true,
-									'function' => 'render_sc_post_list',
-								),
-								'placeholder'      => __( 'Same page', 'Render_Woocommerce' ),
-							),
-						),
-					),
-					'render'      => array(
-						'displayBlock' => true,
-					),
+					'code'        => 'woocommerce_order_tracking',
+					'function'    => 'woocommerce_download_shortcode',
+					'title'       => __( 'Order tracking', 'Render_Woocommerce' ),
+					'description' => __( 'Outputs the status of an order after they enter their details.', 'Render_Woocommerce' ),
+					'tags'        => 'ecommerce',
+					'render'      => true,
 				),
 				// Price
 				array(

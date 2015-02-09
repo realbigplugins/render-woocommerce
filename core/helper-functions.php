@@ -44,34 +44,34 @@ function render_woocommerce_get_tags() {
 }
 
 /**
- * Get all downloads.
+ * Get all products.
  *
  * @since 0.1.0
  *
  * @return array
  */
-function render_woocommerce_get_downloads() {
+function render_woocommerce_get_products() {
 
 	global $post;
 
 	$args      = array(
-		'post_type' => 'download'
+		'post_type' => 'product'
 	);
-	$downloads = get_posts( $args );
+	$products = get_posts( $args );
 
 	$output = array();
 
-	if ( $post->post_type == 'download' ) {
-		$output[ $post->ID ] = 'Current download';
+	if ( $post->post_type == 'product' ) {
+		$output[ $post->ID ] = 'Current product';
 	}
 
-	foreach ( $downloads as $download ) {
+	foreach ( $products as $product ) {
 
-		if ( (int) $download->ID === (int) $post->ID ) {
+		if ( (int) $product->ID === (int) $post->ID ) {
 			continue;
 		}
 
-		$output[ $download->ID ] = $download->post_title;
+		$output[ $product->ID ] = $product->post_title;
 	}
 
 	return $output;
@@ -100,17 +100,17 @@ function render_woocommerce_sc_attr_template( $template, $extra = array(), $_pro
 	$output = array();
 
 	switch ( $template ) {
-		case 'downloads':
+		case 'product':
 
 			$properties = array(
-				'placeholder' => __( 'Select a download', 'Render_woocommerce' ),
+				'placeholder' => __( 'Select a product', 'Render_woocommerce' ),
 				'callback'    => array(
-					'function' => 'render_woocommerce_get_downloads',
+					'function' => 'render_woocommerce_get_products',
 				),
 			);
 
 			$output = array(
-				'label'      => __( 'Download', 'Render_woocommerce' ),
+				'label'      => __( 'Product', 'Render_woocommerce' ),
 				'type'       => 'selectbox',
 				'default'    => $post_ID,
 				'properties' => array_merge( $properties, $_properties ),
