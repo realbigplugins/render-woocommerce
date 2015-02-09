@@ -351,8 +351,14 @@ class Render_Woocommerce {
 							),
 						),
 						'attribute'       => array(
-							// TODO make this a dynamic dropdown
 							'label'      => __( 'Attribute', 'Render_Woocommerce' ),
+							'type'       => 'selectbox',
+							'properties' => array(
+								'placeholder' => __( 'Attribute', 'Render_Woocommerce' ),
+								'callback'    => array(
+									'function' => 'render_woocommerce_get_attributes',
+								),
+							),
 						),
 						'filter'    => array(
 							'label'      => __( 'Filter', 'Render_Woocommerce' ),
@@ -383,13 +389,12 @@ class Render_Woocommerce {
 							'default'    => 'date',
 							'properties' => array(
 								'options' => array(
-									// TODO find all accepted inputs
 									'price'     => __( 'Price', 'Render_Woocommerce' ),
 									'id'        => __( 'ID', 'Render_Woocommerce' ),
 									'rand'    => __( 'Random', 'Render_Woocommerce' ),
 									'date' => __( 'Published date', 'Render_Woocommerce' ),
 									'title'     => __( 'Title', 'Render_Woocommerce' ),
-									'name'     => __( 'Name', 'Render_Woocommerce' ),
+									'menu_order'     => __( 'Menu order', 'Render_Woocommerce' ),
 								),
 							),
 						),
@@ -433,8 +438,15 @@ class Render_Woocommerce {
 							),
 						),
 						'ids'       => array(
-							// TODO make this a dynamic multiselect dropdown
 							'label'      => __( 'Categories', 'Render_Woocommerce' ),
+							'type'       => 'selectbox',
+							'properties' => array(
+								'placeholder' => __( 'Category', 'Render_Woocommerce' ),
+								'multi'       => true,
+								'callback'    => array(
+									'function' => 'render_woocommerce_get_categories',
+								),
+							),
 						),
 					),
 					'render'      => true,
@@ -490,9 +502,14 @@ class Render_Woocommerce {
 							),
 						),
 						'category'       => array(
-							// TODO make this a dynamic dropdown
 							'label'      => __( 'Category', 'Render_Woocommerce' ),
-							'required' => true,
+							'type'       => 'selectbox',
+							'properties' => array(
+								'placeholder' => __( 'Category', 'Render_Woocommerce' ),
+								'callback'    => array(
+									'function' => 'render_woocommerce_get_categories',
+								),
+							),
 						),
 					),
 					'render'      => true,
@@ -506,8 +523,8 @@ class Render_Woocommerce {
 					'tags'        => 'ecommerce purchase buy sale individual',
 					'atts'        => array(
 						'id'       => render_woocommerce_sc_attr_template( 'product', array(
-							'required' => true,
-						) ),
+							'required' => true, )
+						),
 						'sku'    => array(
 							'label'      => __( 'SKU', 'Render_Woocommerce' ),
 						),
@@ -522,10 +539,11 @@ class Render_Woocommerce {
 					'description' => __( 'Show multiple products by ID or SKU.', 'Render_Woocommerce' ),
 					'tags'        => 'ecommerce purchase buy sale',
 					'atts'        => array(
-						'ids'       => array(
-							// TODO make this a dynamic multiselect dropdown
-							'label'      => __( 'Products', 'Render_Woocommerce' ),
+						'ids'       => render_woocommerce_sc_attr_template( 'product', array(
 							'required' => true,
+						), array(
+							'multi'       => true,
+							)
 						),
 						'skus'    => array(
 							'label'      => __( 'SKU', 'Render_Woocommerce' ),
@@ -621,9 +639,9 @@ class Render_Woocommerce {
 				),
 				// 12. Related products
 				array(
-					'code'        => 'recent_products',
+					'code'        => 'related_products',
 					'function'    => 'woocommerce_download_shortcode',
-					'title'       => __( 'Recent products', 'Render_Woocommerce' ),
+					'title'       => __( 'Related products', 'Render_Woocommerce' ),
 					'description' => __( 'Displays a list of related products.', 'Render_Woocommerce' ),
 					'tags'        => 'ecommerce grid list',
 					'atts'        => array(
@@ -832,422 +850,6 @@ class Render_Woocommerce {
 					'description' => __( 'Outputs the status of an order after they enter their details.', 'Render_Woocommerce' ),
 					'tags'        => 'ecommerce',
 					'render'      => true,
-				),
-				// Price
-				array(
-					'code'        => 'woocommerce_price',
-					'function'    => 'woocommerce_download_price_shortcode',
-					'title'       => __( 'Download Price', 'Render_Woocommerce' ),
-					'description' => __( 'Displays the price of a specific download.', 'Render_Woocommerce' ),
-					'tags'        => 'woocommerce ecommerce downloads product price',
-					'atts'        => array(
-						'id'       => render_woocommerce_sc_attr_template( 'downloads', array(
-							'required' => true,
-						) ),
-						'price_id' => array(
-							'label'       => __( 'Price ID', 'Render_Woocommerce' ),
-							'description' => __( 'Optional. For variable pricing.', 'Render_Woocommerce' ),
-						),
-					),
-					'render'      => true,
-				),
-				// Receipt
-				array(
-					'code'        => 'woocommerce_receipt',
-					'function'    => 'woocommerce_receipt_shortcode',
-					'title'       => __( 'Download Receipt', 'Render_Woocommerce' ),
-					'description' => __( 'Displays a the complete details of a completed purchase.', 'Render_Woocommerce' ),
-					'tags'        => 'woocommerce ecommerce downloads purchase receipt confirmation order payment complete checkout',
-					'atts'        => array(
-						'error'       => array(
-							'label'      => __( 'Error Message', 'Render_Woocommerce' ),
-							'properties' => array(
-								'placeholder' => __( 'Sorry, trouble retrieving payment receipt.', 'woocommerce' ),
-							),
-						),
-						'price'       => array(
-							'label'      => __( 'Hide Price', 'Render_Woocommerce' ),
-							'type'       => 'checkbox',
-							'properties' => array(
-								'value' => 0,
-							),
-						),
-						'discount'    => array(
-							'label'      => __( 'Hide Discounts', 'Render_Woocommerce' ),
-							'type'       => 'checkbox',
-							'properties' => array(
-								'value' => 0,
-							),
-						),
-						'products'    => array(
-							'label'      => __( 'Hide Products', 'Render_Woocommerce' ),
-							'type'       => 'checkbox',
-							'properties' => array(
-								'value' => 0,
-							),
-						),
-						'date'        => array(
-							'label'      => __( 'Hide Purchase Date', 'Render_Woocommerce' ),
-							'type'       => 'checkbox',
-							'properties' => array(
-								'value' => 0,
-							),
-						),
-						'payment_key' => array(
-							'label'      => __( 'Hide Payment Key', 'Render_Woocommerce' ),
-							'type'       => 'checkbox',
-							'properties' => array(
-								'value' => 0,
-							),
-						),
-						'payment_id'  => array(
-							'label'      => __( 'Hide Order Number', 'Render_Woocommerce' ),
-							'type'       => 'checkbox',
-							'properties' => array(
-								'value' => 0,
-							),
-						),
-					),
-					'render'      => array(
-						'displayBlock' => true,
-					),
-				),
-				// Purchase Link
-				array(
-					'code'        => 'purchase_link',
-					'function'    => 'woocommerce_download_shortcode',
-					'title'       => __( 'Download Purchase Link', 'Render_Woocommerce' ),
-					'description' => __( 'Displays a button which adds a specific product to the cart.', 'Render_Woocommerce' ),
-					'tags'        => 'woocommerce ecommerce downloads purchase product buy button pay link checkout',
-					'atts'        => array(
-						'id'       => render_woocommerce_sc_attr_template( 'downloads', array(
-							'required' => true,
-						) ),
-						'price'    => array(
-							'label'      => __( 'Hide Price', 'Render_Woocommerce' ),
-							'type'       => 'checkbox',
-							'properties' => array(
-								'value' => 0,
-							),
-						),
-						'text'     => array(
-							'label'      => __( 'Link Text', 'Render_Woocommerce' ),
-							'properties' => array(
-								'placeholder' => isset( $woocommerce_options['add_to_cart_text'] ) && $woocommerce_options['add_to_cart_text'] != '' ? $woocommerce_options['add_to_cart_text'] : __( 'Purchase', 'woocommerce' ),
-							),
-						),
-						array(
-							'type'  => 'section_break',
-							'label' => __( 'Style', 'Render_Woocommerce' ),
-						),
-						'style'    => array(
-							'label'      => __( 'Style', 'Render_Woocommerce' ),
-							'type'       => 'toggle',
-							'properties' => array(
-								'flip'   => isset( $woocommerce_options['button_style'] ) && $woocommerce_options['button_style'] == 'plain',
-								'values' => array(
-									'button' => __( 'Button', 'Render_Woocommerce' ),
-									'plain'   => __( 'Text', 'Render_Woocommerce' ),
-								),
-							),
-						),
-						'color'    => array(
-							'label'      => __( 'Button Color', 'Render_Woocommerce' ),
-							'type'       => 'selectbox',
-							'default'    => isset( $woocommerce_options['checkout_color'] ) ? $woocommerce_options['checkout_color'] : 'blue',
-							'properties' => array(
-								'options' => array(
-									'white'     => __( 'White', 'Render_Woocommerce' ),
-									'gray'      => __( 'Gray', 'Render_Woocommerce' ),
-									'blue'      => __( 'Blue', 'Render_Woocommerce' ),
-									'red'       => __( 'Red', 'Render_Woocommerce' ),
-									'green'     => __( 'Green', 'Render_Woocommerce' ),
-									'yellow'    => __( 'Yellow', 'Render_Woocommerce' ),
-									'orange'    => __( 'Orange', 'Render_Woocommerce' ),
-									'dark gray' => __( 'Dark gray', 'Render_Woocommerce' ),
-									'inherit'   => __( 'Inherit', 'Render_Woocommerce' ),
-								),
-							),
-						),
-						'sku'      => array(
-							'label'    => __( 'SKU', 'Render_Woocommerce' ),
-							'description'    => __( 'Get download by SKU (overrides download set above)', 'Render_Woocommerce' ),
-							'advanced' => true,
-						),
-						'direct'   => array(
-							'label'      => __( 'Direct Purchase', 'Render_Woocommerce' ),
-							'type'       => 'checkbox',
-							'properties' => array(
-								'label' => __( 'Send customer to directly to PayPal', 'Render_Woocommerce' ),
-							),
-							'advanced'   => true,
-						),
-						'class'    => array(
-							'label'    => __( 'CSS Class', 'Render_Woocommerce' ),
-							'default'  => 'woocommerce-submit',
-							'advanced' => true,
-						),
-						'form_id'  => array(
-							'label'    => __( 'Form ID', 'Render_Woocommerce' ),
-							'default'  => '',
-							'advanced' => true,
-						),
-					),
-					'render'      => array(
-						'noStyle' => true,
-					),
-				),
-				// Purchase Collection
-				array(
-					'code'        => 'purchase_collection',
-					'function'    => 'woocommerce_purchase_collection_shortcode',
-					'title'       => __( 'Download Purchase Collection', 'Render_Woocommerce' ),
-					'description' => __( 'Displays a button which adds all products in a specific taxonomy term to the cart.', 'Render_Woocommerce' ),
-					'tags'        => 'woocommerce ecommerce downloads purchase product buy button pay link checkout',
-					'atts'        => array(
-						'taxonomy' => array(
-							'label'      => __( 'Taxonomy', 'Render_Woocommerce' ),
-							'type'       => 'selectbox',
-							'required' => true,
-							'properties' => array(
-								'options' => array(
-									'download_category' => __( 'Category', 'Render_Woocommerce' ),
-									'download_tag'      => __( 'Tag', 'Render_Woocommerce' ),
-								),
-							),
-						),
-						'terms'    => array(
-							'label'       => __( 'Terms', 'Render_Woocommerce' ),
-							'required' => true,
-							'description' => __( 'Enter a comma separated list of terms for the selected taxonomy.', 'Render_Woocommerce' ),
-						),
-						'text'     => array(
-							'label'   => __( 'Link Text', 'Render_Woocommerce' ),
-							'default' => __( 'Purchase All Items', 'woocommerce' ),
-						),
-						array(
-							'type'  => 'section_break',
-							'label' => __( 'Style', 'Render_Woocommerce' ),
-						),
-						'style'    => array(
-							'label'      => __( 'Style', 'Render_Woocommerce' ),
-							'type'       => 'toggle',
-							'properties' => array(
-								'flip'   => isset( $woocommerce_options['button_style'] ) && $woocommerce_options['button_style'] == 'plain',
-								'values' => array(
-									'button' => __( 'Button', 'Render_Woocommerce' ),
-									'plain'   => __( 'Text', 'Render_Woocommerce' ),
-								),
-							),
-						),
-						'color'    => array(
-							'label'      => __( 'Button Color', 'Render_Woocommerce' ),
-							'type'       => 'selectbox',
-							'default'    => isset( $woocommerce_options['checkout_color'] ) ? $woocommerce_options['checkout_color'] : 'blue',
-							'properties' => array(
-								'options' => array(
-									'gray'      => __( 'Gray', 'Render_Woocommerce' ),
-									'blue'      => __( 'Blue', 'Render_Woocommerce' ),
-									'green'     => __( 'Green', 'Render_Woocommerce' ),
-									'dark gray' => __( 'Dark gray', 'Render_Woocommerce' ),
-									'yellow'    => __( 'Yellow', 'Render_Woocommerce' ),
-								),
-							),
-						),
-						'class'    => array(
-							'label'    => __( 'CSS Class', 'Render_Woocommerce' ),
-							'default'  => 'woocommerce-submit',
-							'advanced' => true,
-						),
-					),
-					'render'      => array(
-						'noStyle' => true,
-					),
-				),
-				// Downloads
-				array(
-					'code'        => 'downloads',
-					'function'    => 'woocommerce_downloads_query',
-					'title'       => __( 'Downloads', 'Render_Woocommerce' ),
-					'description' => __( 'Outputs a list or grid of downloadable products.', 'Render_Woocommerce' ),
-					'tags'        => 'woocommerce ecommerce downloads purchase product list',
-					'atts'        => array(
-						array(
-							'type'  => 'section_break',
-							'label' => __( 'Downloads', 'Render_Woocommerce' ),
-						),
-						'category'         => array(
-							'label'      => __( 'Categories', 'Render_Woocommerce' ),
-							'type'       => 'selectbox',
-							'properties' => array(
-								'placeholder' => __( 'Download category', 'Render_Woocommerce' ),
-								'multi'       => true,
-								'callback'    => array(
-									'function' => 'render_woocommerce_get_categories',
-								),
-							),
-						),
-						'tags'             => array(
-							'label'      => __( 'Tags', 'Render_Woocommerce' ),
-							'type'       => 'selectbox',
-							'properties' => array(
-								'placeholder' => __( 'Download tag', 'Render_Woocommerce' ),
-								'multi'       => true,
-								'callback'    => array(
-									'function' => 'render_woocommerce_get_tags',
-								),
-							),
-						),
-						'relation'         => array(
-							'label'       => __( 'Relation', 'Render_Woocommerce' ),
-							'description' => __( 'Downloads must be in ALL categories / tags, or at least just one.', 'Render_Woocommerce' ),
-							'type'        => 'toggle',
-							'properties'  => array(
-								'values' => array(
-									'AND' => __( 'All', 'Render_Woocommerce' ) . '&nbsp;', // For spacing in the toggle switch
-									'OR'  => __( 'One', 'Render_Woocommerce' ),
-								),
-							),
-						),
-						'exclude_category' => array(
-							'label'      => __( 'Exclude Categories', 'Render_Woocommerce' ),
-							'type'       => 'selectbox',
-							'properties' => array(
-								'placeholder' => __( 'Download category', 'Render_Woocommerce' ),
-								'multi'       => true,
-								'callback'    => array(
-									'function' => 'render_woocommerce_get_categories',
-								),
-							),
-						),
-						'exclude_tags'     => array(
-							'label'      => __( 'Exclude Tags', 'Render_Woocommerce' ),
-							'type'       => 'selectbox',
-							'properties' => array(
-								'placeholder' => __( 'Download tag', 'Render_Woocommerce' ),
-								'multi'       => true,
-								'callback'    => array(
-									'function' => 'render_woocommerce_get_tags',
-								),
-							),
-						),
-						'number'           => array(
-							'label'      => __( 'Download Count', 'Render_Woocommerce' ),
-							'type'       => 'counter',
-							'default'    => 9,
-							'properties' => array(
-								'min' => 1,
-								'max' => 50,
-							),
-						),
-						'ids'              => render_woocommerce_sc_attr_template(
-							'downloads',
-							array(
-								'label'       => __( 'Downloads', 'Render_Woocommerce' ),
-								'description' => __( 'Enter one or more downloads to use ONLY these downloads.', 'Render_Woocommerce' ),
-							), array(
-								'multi' => true,
-							)
-						),
-						'orderby'          => array(
-							'label'      => __( 'Order By', 'Render_Woocommerce' ),
-							'type'       => 'selectbox',
-							'default'    => 'post_date',
-							'properties' => array(
-								'options' => array(
-									'price'     => __( 'Price', 'Render_Woocommerce' ),
-									'id'        => __( 'ID', 'Render_Woocommerce' ),
-									'random'    => __( 'Random', 'Render_Woocommerce' ),
-									'post_date' => __( 'Published date', 'Render_Woocommerce' ),
-									'title'     => __( 'Title', 'Render_Woocommerce' ),
-								),
-							),
-						),
-						'order'            => array(
-							'label'      => __( 'Order', 'Render_Woocommerce' ),
-							'type'       => 'toggle',
-							'properties' => array(
-								'values' => array(
-									'DESC' => __( 'Descending', 'Render_Woocommerce' ),
-									'ASC'  => __( 'Ascending', 'Render_Woocommerce' ),
-								),
-							),
-						),
-						array(
-							'type'  => 'section_break',
-							'label' => __( 'Visibility', 'Render_Woocommerce' ),
-						),
-						'price'            => array(
-							'label'      => __( 'Price', 'Render_Woocommerce' ),
-							'type'       => 'toggle',
-							'properties' => array(
-								'deselectStyle' => true,
-								'values'        => array(
-									'no'  => __( 'Hide', 'Render_Woocommerce' ),
-									'yes' => __( 'Show', 'Render_Woocommerce' ),
-								),
-							),
-						),
-						'excerpt'          => array(
-							'label'      => __( 'Excerpt', 'Render_Woocommerce' ),
-							'type'       => 'toggle',
-							'properties' => array(
-								'flip'          => true,
-								'deselectStyle' => true,
-								'values'        => array(
-									'no'  => __( 'Hide', 'Render_Woocommerce' ),
-									'yes' => __( 'Show', 'Render_Woocommerce' ),
-								),
-							),
-						),
-						'full_content'     => array(
-							'label'      => __( 'Full Content', 'Render_Woocommerce' ),
-							'type'       => 'toggle',
-							'properties' => array(
-								'deselectStyle' => true,
-								'values'        => array(
-									'no'  => __( 'Hide', 'Render_Woocommerce' ),
-									'yes' => __( 'Show', 'Render_Woocommerce' ),
-								),
-							),
-						),
-						'buy_button'       => array(
-							'label'      => __( 'Buy Button', 'Render_Woocommerce' ),
-							'type'       => 'toggle',
-							'properties' => array(
-								'flip'          => true,
-								'deselectStyle' => true,
-								'values'        => array(
-									'no'  => __( 'Hide', 'Render_Woocommerce' ),
-									'yes' => __( 'Show', 'Render_Woocommerce' ),
-								),
-							),
-						),
-						'thumbnails'       => array(
-							'label'      => __( 'Thumbnails', 'Render_Woocommerce' ),
-							'type'       => 'toggle',
-							'properties' => array(
-								'flip'          => true,
-								'deselectStyle' => true,
-								'values'        => array(
-									'false' => __( 'Hide', 'Render_Woocommerce' ),
-									'true'  => __( 'Show', 'Render_Woocommerce' ),
-								),
-							),
-						),
-						'columns'          => array(
-							'label'      => __( 'Columns', 'Render_Woocommerce' ),
-							'type'       => 'counter',
-							'default'    => 3,
-							'properties' => array(
-								'min' => 0,
-								'max' => 6,
-							),
-						),
-					),
-					'render'      => array(
-						'displayBlock' => true,
-					)
 				),
 			) as $shortcode
 		) {

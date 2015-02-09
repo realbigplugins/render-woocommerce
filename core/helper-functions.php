@@ -14,26 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function render_woocommerce_get_categories() {
 
-	$terms = get_terms( 'download_category', 'hide_empty=false' );
-
-	$output = array();
-	foreach ( $terms as $term ) {
-		$output[ $term->term_id ] = $term->name;
-	}
-
-	return $output;
-}
-
-/**
- * Get download tags.
- *
- * @since 0.1.0
- *
- * @return array
- */
-function render_woocommerce_get_tags() {
-
-	$terms = get_terms( 'download_tag', 'hide_empty=false' );
+	$terms = get_terms( 'product_cat', 'hide_empty=false' );
 
 	$output = array();
 	foreach ( $terms as $term ) {
@@ -122,5 +103,24 @@ function render_woocommerce_sc_attr_template( $template, $extra = array(), $_pro
 		$output = array_merge( $output, $extra );
 	}
 
+	return $output;
+}
+
+/**
+ * Returns an array of all existing product attributes
+ *
+ * @since 1.0.0
+ * @return array
+ */
+function render_woocommerce_get_attributes() {
+	$attributes = wc_get_attribute_taxonomies();
+
+	if ( ! $attributes ) {
+		$output[] = 'No attributes currently exist.';
+	} else {
+		foreach ( $attributes as $attribute ) {
+			$output[$attribute->attribute_name] = $attribute->attribute_label;
+		}
+	}
 	return $output;
 }
