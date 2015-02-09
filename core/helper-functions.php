@@ -61,7 +61,7 @@ function render_woocommerce_get_products() {
 /**
  * Outputs an attribute template.
  *
- * @since 1.0.0
+ * @since 0.1.0
  *
  * @param string $template Which template to use.
  * @param array  $extra    Extra attribute parameters to use (or override).
@@ -109,7 +109,7 @@ function render_woocommerce_sc_attr_template( $template, $extra = array(), $_pro
 /**
  * Returns an array of all existing product attributes
  *
- * @since 1.0.0
+ * @since 0.1.0
  * @return array
  */
 function render_woocommerce_get_attributes() {

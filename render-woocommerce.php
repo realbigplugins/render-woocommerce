@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Render Woocommerce
-Description: Integrates Woocommerce with Render for improved shortcode capabilities.
+Description: Integrates Woocommerce with Render for improved shortcode usability.
 Version: 0.1.0
 Author: Joel Worsham & Kyle Maurer
 Author URI: http://renderwp.com
@@ -24,21 +24,21 @@ require_once __DIR__ . '/core/licensing/licensing.php';
 /**
  * The version of Render.
  *
- * @since 1.0.0
+ * @since 0.1.0
  */
 define( 'RENDER_WOOCOMMERCE_VERSION', '0.1.0' );
 
 /**
  * The absolute server path to Render's root directory.
  *
- * @since 1.0.0
+ * @since 0.1.0
  */
 define( 'RENDER_WOOCOMMERCE_PATH', plugin_dir_path( __FILE__ ) );
 
 /**
  * The URI to Render's root directory.
  *
- * @since 1.0.0
+ * @since 0.1.0
  */
 define( 'RENDER_WOOCOMMERCE_URL', plugins_url( '', __FILE__ ) );
 
@@ -160,7 +160,7 @@ class Render_Woocommerce {
 				// 1. Add to cart
 				array(
 					'code'        => 'add_to_cart',
-					'function'    => 'woocommerce_download_shortcode',
+					'function'    => 'WC_Shortcodes::product_add_to_cart',
 					'title'       => __( 'Add to Cart', 'Render_Woocommerce' ),
 					'description' => __( 'Displays a button which adds a specific product to the cart.', 'Render_Woocommerce' ),
 					'tags'        => 'ecommerce purchase product buy button pay link checkout',
@@ -185,7 +185,7 @@ class Render_Woocommerce {
 				// 2. Add to cart URL
 				array(
 					'code'        => 'add_to_cart_url',
-					'function'    => 'woocommerce_download_shortcode',
+					'function'    => 'WC_Shortcodes::product_add_to_cart_url',
 					'title'       => __( 'Add to Cart URL', 'Render_Woocommerce' ),
 					'description' => __( 'Displays the URL on the add to cart button of a specific product.', 'Render_Woocommerce' ),
 					'tags'        => 'ecommerce purchase product buy button pay link checkout URI',
@@ -202,7 +202,7 @@ class Render_Woocommerce {
 				// 3. Best selling products
 				array(
 					'code'        => 'best_selling_products',
-					'function'    => 'woocommerce_download_shortcode',
+					'function'    => 'WC_Shortcodes::best_selling_products',
 					'title'       => __( 'Best Selling Products', 'Render_Woocommerce' ),
 					'description' => __( 'Displays a list of all the best selling products on this site.', 'Render_Woocommerce' ),
 					'tags'        => 'ecommerce purchase checkout sale grid',
@@ -231,7 +231,7 @@ class Render_Woocommerce {
 				// 4. Featured products
 				array(
 					'code'        => 'featured_products',
-					'function'    => 'woocommerce_download_shortcode',
+					'function'    => 'WC_Shortcodes::featured_products',
 					'title'       => __( 'Featured Products', 'Render_Woocommerce' ),
 					'description' => __( 'Displays a list of all the featured products on this site.', 'Render_Woocommerce' ),
 					'tags'        => 'ecommerce purchase checkout sale grid',
@@ -285,7 +285,7 @@ class Render_Woocommerce {
 				// 5. Product
 				array(
 					'code'        => 'product',
-					'function'    => 'woocommerce_download_shortcode',
+					'function'    => 'WC_Shortcodes::product',
 					'title'       => __( 'Product', 'Render_Woocommerce' ),
 					'description' => __( 'Displays a specific product.', 'Render_Woocommerce' ),
 					'tags'        => 'ecommerce purchase buy pay sale',
@@ -302,7 +302,7 @@ class Render_Woocommerce {
 				// 6. Product attribute
 				array(
 					'code'        => 'product_attribute',
-					'function'    => 'woocommerce_download_shortcode',
+					'function'    => 'WC_Shortcodes::product_attribute',
 					'title'       => __( 'Product Attribute', 'Render_Woocommerce' ),
 					'description' => __( 'Displays a list of products based on an attribute value.', 'Render_Woocommerce' ),
 					'tags'        => 'ecommerce purchase sale grid',
@@ -369,7 +369,7 @@ class Render_Woocommerce {
 				// 7. Product categories
 				array(
 					'code'        => 'product_categories',
-					'function'    => 'woocommerce_download_shortcode',
+					'function'    => 'WC_Shortcodes::product_categories',
 					'title'       => __( 'Product Categories', 'Render_Woocommerce' ),
 					'description' => __( 'Displays a list of product categories.', 'Render_Woocommerce' ),
 					'tags'        => 'ecommerce purchase sale grid taxonomy list',
@@ -454,7 +454,7 @@ class Render_Woocommerce {
 				// 8. Product category
 				array(
 					'code'        => 'product_category',
-					'function'    => 'woocommerce_download_shortcode',
+					'function'    => 'WC_Shortcodes::product_category',
 					'title'       => __( 'Product Category', 'Render_Woocommerce' ),
 					'description' => __( 'Displays a list of products in a category.', 'Render_Woocommerce' ),
 					'tags'        => 'ecommerce purchase sale grid taxonomy list',
@@ -517,7 +517,7 @@ class Render_Woocommerce {
 				// 9. Product page
 				array(
 					'code'        => 'product_page',
-					'function'    => 'woocommerce_download_shortcode',
+					'function'    => 'WC_Shortcodes::product_page',
 					'title'       => __( 'Product page', 'Render_Woocommerce' ),
 					'description' => __( 'Show a full single product page by ID or SKU.', 'Render_Woocommerce' ),
 					'tags'        => 'ecommerce purchase buy sale individual',
@@ -534,7 +534,7 @@ class Render_Woocommerce {
 				// 10. Products
 				array(
 					'code'        => 'products',
-					'function'    => 'woocommerce_download_shortcode',
+					'function'    => 'WC_Shortcodes::products',
 					'title'       => __( 'Products', 'Render_Woocommerce' ),
 					'description' => __( 'Show multiple products by ID or SKU.', 'Render_Woocommerce' ),
 					'tags'        => 'ecommerce purchase buy sale',
@@ -587,7 +587,7 @@ class Render_Woocommerce {
 				// 11. Recent products
 				array(
 					'code'        => 'recent_products',
-					'function'    => 'woocommerce_download_shortcode',
+					'function'    => 'WC_Shortcodes::recent_products',
 					'title'       => __( 'Recent products', 'Render_Woocommerce' ),
 					'description' => __( 'Displays a list of recent products.', 'Render_Woocommerce' ),
 					'tags'        => 'ecommerce grid list new',
@@ -640,7 +640,7 @@ class Render_Woocommerce {
 				// 12. Related products
 				array(
 					'code'        => 'related_products',
-					'function'    => 'woocommerce_download_shortcode',
+					'function'    => 'WC_Shortcodes::related_products',
 					'title'       => __( 'Related products', 'Render_Woocommerce' ),
 					'description' => __( 'Displays a list of related products.', 'Render_Woocommerce' ),
 					'tags'        => 'ecommerce grid list',
@@ -683,7 +683,7 @@ class Render_Woocommerce {
 				// 13. Sale products
 				array(
 					'code'        => 'sale_products',
-					'function'    => 'woocommerce_download_shortcode',
+					'function'    => 'WC_Shortcodes::sale_products',
 					'title'       => __( 'Sale products', 'Render_Woocommerce' ),
 					'description' => __( 'Displays a list of products that are on sale.', 'Render_Woocommerce' ),
 					'tags'        => 'ecommerce grid list',
@@ -736,7 +736,7 @@ class Render_Woocommerce {
 				// 14. Shop messages
 				array(
 					'code'        => 'shop_messages',
-					'function'    => 'woocommerce_download_shortcode',
+					'function'    => 'WC_Shortcodes::shop_messages',
 					'title'       => __( 'Shop messages', 'Render_Woocommerce' ),
 					'description' => __( 'Outputs storewide messages.', 'Render_Woocommerce' ),
 					'tags'        => 'ecommerce',
@@ -745,7 +745,7 @@ class Render_Woocommerce {
 				// 15. Top rated products
 				array(
 					'code'        => 'top_rated_products',
-					'function'    => 'woocommerce_download_shortcode',
+					'function'    => 'WC_Shortcodes::top_rated_products',
 					'title'       => __( 'Top rated products', 'Render_Woocommerce' ),
 					'description' => __( 'Displays the top rated products for this store.', 'Render_Woocommerce' ),
 					'tags'        => 'ecommerce grid list',
@@ -798,7 +798,7 @@ class Render_Woocommerce {
 				// 16. Woocommerce cart
 				array(
 					'code'        => 'woocommerce_cart',
-					'function'    => 'woocommerce_download_shortcode',
+					'function'    => 'WC_Shortcodes::cart',
 					'title'       => __( 'Cart', 'Render_Woocommerce' ),
 					'description' => __( 'Displays the current user\'s cart.', 'Render_Woocommerce' ),
 					'tags'        => 'ecommerce',
@@ -807,7 +807,7 @@ class Render_Woocommerce {
 				// 17. Woocommerce checkout
 				array(
 					'code'        => 'woocommerce_checkout',
-					'function'    => 'woocommerce_download_shortcode',
+					'function'    => 'WC_Shortcodes::checkout',
 					'title'       => __( 'Checkout', 'Render_Woocommerce' ),
 					'description' => __( 'Displays the checkout process for the current user.', 'Render_Woocommerce' ),
 					'tags'        => 'ecommerce',
@@ -816,7 +816,7 @@ class Render_Woocommerce {
 				// 18. Woocommerce messages
 				array(
 					'code'        => 'woocommerce_messages',
-					'function'    => 'woocommerce_download_shortcode',
+					'function'    => 'WC_Shortcodes::shop_messages',
 					'title'       => __( 'Messages', 'Render_Woocommerce' ),
 					'description' => __( 'Outputs storewide messages.', 'Render_Woocommerce' ),
 					'tags'        => 'ecommerce',
@@ -825,7 +825,7 @@ class Render_Woocommerce {
 				// 19. Woocommerce my account
 				array(
 					'code'        => 'woocommerce_my_account',
-					'function'    => 'woocommerce_download_shortcode',
+					'function'    => 'WC_Shortcodes::my_account',
 					'title'       => __( 'My account', 'Render_Woocommerce' ),
 					'description' => __( 'Displays the current user\'s account information.', 'Render_Woocommerce' ),
 					'tags'        => 'ecommerce',
@@ -845,7 +845,7 @@ class Render_Woocommerce {
 				// 20. Woocommerce order tracking
 				array(
 					'code'        => 'woocommerce_order_tracking',
-					'function'    => 'woocommerce_download_shortcode',
+					'function'    => 'WC_Shortcodes::order_tracking',
 					'title'       => __( 'Order tracking', 'Render_Woocommerce' ),
 					'description' => __( 'Outputs the status of an order after they enter their details.', 'Render_Woocommerce' ),
 					'tags'        => 'ecommerce',
@@ -890,46 +890,3 @@ class Render_Woocommerce {
 }
 
 $render_woocommerce = new Render_Woocommerce();
-
-/**
- * TinyMCE callback for the Woocommerce Login Form shortcode.
- *
- * Logs out the user before calling the original shortcode callback.
- *
- * @since 0.1.0
- * @access Private
- *
- * @param array  $atts    The attributes sent to the shortcode.
- * @param string $content The content inside the shortcode.
- * @return string Shortcode output,
- */
-function woocommerce_login_form_shortcode_tinymce( $atts = array(), $content = '' ) {
-
-	// Log out for displaying this shortcode
-	render_tinyme_log_out();
-
-	$output = woocommerce_login_form_shortcode( $atts, $content );
-	return $output;
-}
-
-/**
- * TinyMCE callback for the Woocommerce Register Form shortcode.
- *
- * Logs out the user before calling the original shortcode callback.
- *
- * @since 0.1.0
- *
- * @access Private
- *
- * @param array  $atts    The attributes sent to the shortcode.
- * @param string $content The content inside the shortcode.
- * @return string Shortcode output.
- */
-function woocommerce_register_form_shortcode_tinymce( $atts = array(), $content = '' ) {
-
-	// Log out for displaying this shortcode
-	render_tinyme_log_out();
-
-	$output = woocommerce_register_form_shortcode( $atts, $content );
-	return $output;
-}
