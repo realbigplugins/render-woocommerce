@@ -105,11 +105,9 @@ class Render_Woocommerce {
 		require_once __DIR__ . '/core/admin/settings.php';
 	}
 
+	// TODO add Woocommerce styles to TinyMCE
 	/**
 	 * Adds the Woocommerce stylesheet to the TinyMCE.
-	 *
-	 * Woocommerce doesn't register the stylesheet, so I can't grab it that way, but Pippin mentioned I can just call the function
-	 * to enqueue the style, grab the stylesheet, and then dequeue it pretty easily.
 	 *
 	 * @since 0.1.0
 	 *
@@ -118,20 +116,12 @@ class Render_Woocommerce {
 	 */
 	public static function add_woocommerce_style( $styles ) {
 
-		global $wp_styles;
-
-		//woocommerce_register_styles();
-
-		if ( isset( $wp_styles->registered['woocommerce-styles'] ) ) {
-			$styles[] = $wp_styles->registered['woocommerce-styles']->src;
-		}
-
-		wp_dequeue_style( 'woocommerce-styles' );
-
+		$styles[] = WC_Frontend_Scripts::get_styles()['woocommerce-general']['src'];
+		$styles[] = WC_Frontend_Scripts::get_styles()['woocommerce-layout']['src'];
+		$styles[] = WC_Frontend_Scripts::get_styles()['woocommerce-smallscreen']['src'];
 		return $styles;
 	}
 
-	// TODO add Woocommerce styles to TinyMCE
 	/**
 	 * Adds the Render Woocommerce stylesheet to the TinyMCE through Render.
 	 *
@@ -142,7 +132,7 @@ class Render_Woocommerce {
 	 */
 	public static function add_render_woocommerce_style( $styles ) {
 
-		//$styles[] = RENDER_WOOCOMMERCE_URL . "/assets/css/render-woocommerce.css";
+		$styles[] = RENDER_WOOCOMMERCE_URL . "/assets/css/render-woocommerce.css";
 		return $styles;
 	}
 
@@ -890,3 +880,10 @@ class Render_Woocommerce {
 }
 
 $render_woocommerce = new Render_Woocommerce();
+
+//add_action('wp_footer', function() {
+//	global $wp_styles;
+//	var_dump($wp_styles);
+//	$style = WC_Frontend_Scripts::get_styles()['woocommerce-general']['src'];;
+//	echo $style['woocommerce-general']['src'];
+//});
