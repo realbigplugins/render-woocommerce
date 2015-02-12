@@ -1,0 +1,25 @@
+{
+  "name": "Render_WooCommerce",
+  "version": "1.0.0",
+  "description": "Integrates WooCommerce with Render for improved shortcode usability.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/brashrebel/render-woocommerce"
+  },
+  "author": "Kyle Maurer & Joel Worsham",
+  "author_uri": "http://realbigmarketing.com",
+  "plugin_uri": "http://realbigplugins.com/plugins/render-woocommerce/",
+  "devDependencies": {
+    "grunt": "~0.4",
+    "grunt-string-replace": "~1.0",
+    "grunt-pot": "~0.2",
+    "grunt-autoprefixer": "~1.0",
+    "grunt-contrib-uglify": "~0.5",
+    "grunt-contrib-imagemin": "~0.9",
+    "grunt-contrib-watch": "~0.6",
+    "grunt-contrib-sass": "~0.8",
+    "grunt-sync": "~0.2",
+    "grunt-notify": "~0.4",
+    "matchdep": "~0.3"
+  }
+}
