@@ -117,7 +117,12 @@ class Render_WooCommerce {
 		add_action( 'render_tinymce_ajax', array( $this, '_add_product_post_class' ) );
 
 		// Add licensing
-		render_setup_license( 'render_woocommerce', 'WooCommerce', RENDER_WOOCOMMERCE_VERSION, __FILE__ );
+		render_setup_license(
+			'render_woocommerce',
+			'WooCommerce',
+			RENDER_WOOCOMMERCE_VERSION,
+			defined( 'RENDER_DEVELOPMENT' ) ? 'render-woocommerce-development/init.php' : __FILE__
+		);
 	}
 
 	/**
